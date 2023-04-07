@@ -1,0 +1,47 @@
+.root {
+  position: relative;
+  flex-grow: 1;
+  max-width: 400px;
+  // margin-left: auto;
+  margin-right: auto;
+  &:before {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 10px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' id='search'%3E%3Cpath d='M3.624,15a8.03,8.03,0,0,0,10.619.659l5.318,5.318a1,1,0,0,0,1.414-1.414l-5.318-5.318A8.04,8.04,0,0,0,3.624,3.624,8.042,8.042,0,0,0,3.624,15Zm1.414-9.96a6.043,6.043,0,1,1-1.77,4.274A6,6,0,0,1,5.038,5.038Z'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+  input {
+    width: 100%;
+    border: 1px solid #a7a7a7;
+    border-radius: 13px;
+    padding: 10px 35px 10px 35px;
+  }
+}
+
+.deleteText {
+  cursor: pointer;
+  position: absolute;
+  font-size: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 10px;
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    color: #a7a7a7;
+  }
+  svg {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+    fill: currentColor;
+    overflow: hidden;
+  }
+}

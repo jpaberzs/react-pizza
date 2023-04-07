@@ -1,0 +1,35 @@
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  li {
+    a {
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #fe5f1e;
+      border-radius: 50%;
+      color: #fe5f1e;
+      transition: all 0.3s ease-in-out;
+      &:hover {
+        background-color: #fe5f1e;
+        color: #fff;
+      }
+    }
+    &:global {
+      &.disabled {
+        pointer-events: none;
+        opacity: 0.48;
+      }
+      &.selected {
+        a {
+          background-color: #fe5f1e;
+          color: #fff;
+        }
+      }
+    }
+  }
+}

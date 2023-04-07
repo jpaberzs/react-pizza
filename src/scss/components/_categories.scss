@@ -1,0 +1,39 @@
+@import '../variables';
+
+.categories {
+  margin-right: auto;
+  max-width: 819px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  ul {
+    display: flex;
+
+    li {
+      background-color: #f9f9f9;
+      padding: 7px 18px;
+      border-radius: 30px;
+      margin-right: 10px;
+      font-size: rem(14);
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.1s ease-in-out;
+      @include noselect();
+      @media screen and (min-width: 768px) {
+        padding: 13px 30px;
+        font-size: rem(16);
+      }
+      &:hover {
+        background-color: darken(#f9f9f9, 2%);
+      }
+
+      &:active {
+        background-color: darken(#f9f9f9, 5%);
+      }
+
+      &.active {
+        background-color: #282828;
+        color: #fff;
+      }
+    }
+  }
+}
