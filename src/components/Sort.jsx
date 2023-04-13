@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { setSortId } from '../redux/slices/filterSlice';
 
-const sortList = [
+export const sortList = [
   { sortName: 'популярности(DESC)', sortValue: 'rating' },
   { sortName: 'популярности(ASC)', sortValue: '-rating' },
   { sortName: 'цене(DESC)', sortValue: 'price' },
@@ -22,6 +22,19 @@ function Sort() {
     dispatch(setSortId(obj));
     setVisibility(!isVisible);
   };
+
+  React.useEffect(() => {
+    const handleClick = (event) => {
+      let popUpTarget = event.target.closest('.sort');
+      if (!popUpTarget) {
+        setVisibility(false);
+      }
+    };
+
+    document.querySelector('body').addEventListener('click', handleClick);
+
+    return () => document.querySelector('body').removeEventListener('click', handleClick);
+  }, []);
 
   return (
     <div className="sort">
