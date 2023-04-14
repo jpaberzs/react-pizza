@@ -24,6 +24,7 @@ body {
 
   &__title {
     margin: 35px 0;
+    font-weight: 700;
   }
 
   &__items {
@@ -51,6 +52,24 @@ body {
     margin-top: -20px;
     & > * {
       margin-top: 20px;
+    }
+  }
+  &__error {
+    padding: 90px 0;
+    margin: 0 auto;
+    width: 560px;
+    text-align: center;
+
+    h2 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 18px;
+      line-height: 145.4%;
+      letter-spacing: 0.01em;
+      color: #777777;
     }
   }
 }
