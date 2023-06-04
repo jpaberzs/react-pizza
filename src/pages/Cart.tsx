@@ -4,16 +4,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { clearProduct } from '../redux/slices/cartSclice';
 import CartEmpty from '../components/CartEmpty';
 import { Link } from 'react-router-dom';
+import { selcetCart } from '../components/Header';
 
-function Cart() {
-  const { totalPrice, products } = useSelector((state) => state.cart);
+const Cart: React.FC = () => {
+  const { totalPrice, products } = useSelector(selcetCart);
   const dispatch = useDispatch();
 
   const clearCart = () => {
     if (window.confirm('Ты действительно хочешь удалить товар?')) dispatch(clearProduct());
   };
 
-  const totalCount = products.reduce((counted, obj) => counted + obj.count, 0);
+  const totalCount = products.reduce((counted: number, obj: any) => counted + obj.count, 0);
 
   if (!totalPrice) return <CartEmpty />;
 
@@ -93,7 +94,7 @@ function Cart() {
               <span>Очистить корзину</span>
             </div>
           </div>
-          {products.map((product) => (
+          {products.map((product: any) => (
             <CartItem key={product.id + product.size + product.type} {...product} />
           ))}
         </div>
@@ -133,6 +134,6 @@ function Cart() {
       </div>
     </div>
   );
-}
+};
 
 export default Cart;

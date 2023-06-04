@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { setSortId } from '../redux/slices/filterSlice';
 
-export const sortList = [
+export const sortList: SortItem[] = [
   { sortName: 'популярности(DESC)', sortValue: 'rating' },
   { sortName: 'популярности(ASC)', sortValue: '-rating' },
   { sortName: 'цене(DESC)', sortValue: 'price' },
@@ -12,28 +12,35 @@ export const sortList = [
   { sortName: 'алфавиту(ASC)', sortValue: '-title' },
 ];
 
+type SortItem = {
+  sortName: string;
+  sortValue: string;
+};
+
 function Sort() {
   const dispatch = useDispatch();
-  const sort = useSelector((state) => state.filterSlice.sort);
+  const sort = useSelector((state: any) => state.filterSlice.sort);
 
   const [isVisible, setVisibility] = useState(false);
 
-  const onclickListItems = (obj) => {
+  const onclickListItems = (obj: SortItem) => {
     dispatch(setSortId(obj));
     setVisibility(!isVisible);
   };
 
   React.useEffect(() => {
-    const handleClick = (event) => {
+    const handleClick = (event: any) => {
       let popUpTarget = event.target.closest('.sort');
       if (!popUpTarget) {
         setVisibility(false);
       }
     };
+    const body = document.querySelector('body');
+    if (body) {
+      body.addEventListener('click', handleClick);
 
-    document.querySelector('body').addEventListener('click', handleClick);
-
-    return () => document.querySelector('body').removeEventListener('click', handleClick);
+      return () => body.removeEventListener('click', handleClick);
+    }
   }, []);
 
   return (

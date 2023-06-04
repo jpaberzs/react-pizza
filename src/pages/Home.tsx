@@ -11,32 +11,31 @@ import Categories from '../components/Categories';
 import Sort from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock';
 import PizzaSkeleton from '../components/PizzaBlock/PizzaSkeleton';
-import { SearchContext } from '../App';
 import Pagination from '../components/Pagination';
 
-function Home() {
+const Home: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { categoryId, sort, currentPage } = useSelector((state) => state.filterSlice);
-  const { items, status } = useSelector((state) => state.pizza);
+  const { categoryId, sort, currentPage } = useSelector((state: any) => state.filterSlice);
+  const { items, status } = useSelector((state: any) => state.pizza);
+  const { searchValue } = useSelector((state: any) => state.filterSlice);
 
-  const getCategoryId = (id) => {
+  const getCategoryId = (id: number) => {
     dispatch(setCategoryId(id));
   };
 
-  const setCurrentPage = (id) => {
+  const setCurrentPage = (id: number) => {
     dispatch(setPage(id));
   };
-
-  const { searchvalue } = React.useContext(SearchContext);
 
   async function getPizzas() {
     const category = categoryId > 0 ? `category=${categoryId}` : '';
     const sortBy = sort.sortValue.replace('-', '');
     const order = sort.sortValue.includes('-') ? 'asc' : 'desc';
-    const search = searchvalue ? `&search=${searchvalue}` : '';
+    const search = searchValue ? `&search=${searchValue}` : '';
 
     dispatch(
+      // @ts-ignore
       fetchpizzas({
         currentPage,
         category,
@@ -49,7 +48,7 @@ function Home() {
 
   React.useEffect(() => {
     getPizzas();
-  }, [categoryId, sort.sortValue, searchvalue, currentPage]);
+  }, [categoryId, sort.sortValue, searchValue, currentPage]);
 
   React.useEffect(() => {
     const urlSting = qs.stringify({
@@ -62,12 +61,14 @@ function Home() {
   }, [categoryId, sort.sortValue, currentPage]);
 
   const skeletons = [...new Array(6)].map((_, index) => <PizzaSkeleton key={index} />);
-  const pizzas = items.map((productItem) => <PizzaBlock key={productItem.id} {...productItem} />);
+  const pizzas = items.map((productItem: any) => (
+    <PizzaBlock key={productItem.id} {...productItem} />
+  ));
 
   return (
     <div className="container">
       <div className="content__top">
-        <Categories value={categoryId} onClickCategory={(id) => getCategoryId(id)} />
+        <Categories value={categoryId} onClickCategory={(id: number) => getCategoryId(id)} />
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
@@ -75,7 +76,7 @@ function Home() {
         <div className="content__error">
           <h2>Произошла ошибка 😕</h2>
           <p>
-            К сожалению, не удалось получить питсы.
+            К сожалению, не удалось получить пиццы.
             <br />
             попробуйте повторить попытку позже.
           </p>
@@ -83,9 +84,9 @@ function Home() {
       ) : (
         <div className="content__items">{status === 'loading' ? skeletons : pizzas}</div>
       )}
-      <Pagination setChangPage={(number) => setCurrentPage(number)} />
+      <Pagination setChangPage={(number: number) => setCurrentPage(number)} />
     </div>
   );
-}
+};
 
 export default Home;
