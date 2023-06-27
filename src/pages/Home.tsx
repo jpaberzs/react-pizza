@@ -1,9 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { setCategoryId, setPage } from '../redux/slices/filterSlice';
-import { fetchpizzas } from '../redux/slices/pizzaSlice';
+import { Status, fetchpizzas } from '../redux/slices/pizzaSlice';
+import { RootState, useAppDispatch } from '../redux/store';
 
 import qs from 'qs';
 
@@ -15,10 +16,10 @@ import Pagination from '../components/Pagination';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { categoryId, sort, currentPage } = useSelector((state: any) => state.filterSlice);
-  const { items, status } = useSelector((state: any) => state.pizza);
-  const { searchValue } = useSelector((state: any) => state.filterSlice);
+  const dispatch = useAppDispatch();
+  const { categoryId, sort, currentPage } = useSelector((state: RootState) => state.filterSlice);
+  const { items, status } = useSelector((state: RootState) => state.pizza);
+  const { searchValue } = useSelector((state: RootState) => state.filterSlice);
 
   const getCategoryId = (id: number) => {
     dispatch(setCategoryId(id));
@@ -35,7 +36,6 @@ const Home: React.FC = () => {
     const search = searchValue ? `&search=${searchValue}` : '';
 
     dispatch(
-      // @ts-ignore
       fetchpizzas({
         currentPage,
         category,
@@ -61,9 +61,7 @@ const Home: React.FC = () => {
   }, [categoryId, sort.sortValue, currentPage]);
 
   const skeletons = [...new Array(6)].map((_, index) => <PizzaSkeleton key={index} />);
-  const pizzas = items.map((productItem: any) => (
-    <PizzaBlock key={productItem.id} {...productItem} />
-  ));
+  const pizzas = items.map((productItem) => <PizzaBlock key={productItem.id} {...productItem} />);
 
   return (
     <div className="container">
@@ -82,7 +80,7 @@ const Home: React.FC = () => {
           </p>
         </div>
       ) : (
-        <div className="content__items">{status === 'loading' ? skeletons : pizzas}</div>
+        <div className="content__items">{status === Status.LOADING ? skeletons : pizzas}</div>
       )}
       <Pagination setChangPage={(number: number) => setCurrentPage(number)} />
     </div>

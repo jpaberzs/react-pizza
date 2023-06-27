@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { setSortId } from '../redux/slices/filterSlice';
+import { RootState } from '../redux/store';
 
 export const sortList: SortItem[] = [
   { sortName: 'популярности(DESC)', sortValue: 'rating' },
@@ -14,12 +15,16 @@ export const sortList: SortItem[] = [
 
 type SortItem = {
   sortName: string;
-  sortValue: string;
+  sortValue: 'rating' | 'price' | 'title' | '-rating' | '-price' | '-title';
+};
+
+type handleClickType = {
+  target: HTMLDivElement;
 };
 
 function Sort() {
   const dispatch = useDispatch();
-  const sort = useSelector((state: any) => state.filterSlice.sort);
+  const sort = useSelector((state: RootState) => state.filterSlice.sort);
 
   const [isVisible, setVisibility] = useState(false);
 
@@ -29,8 +34,11 @@ function Sort() {
   };
 
   React.useEffect(() => {
-    const handleClick = (event: any) => {
-      let popUpTarget = event.target.closest('.sort');
+    const handleClick = (event: MouseEvent | handleClickType) => {
+      let popUpTarget;
+      if (event.target instanceof Element) {
+        popUpTarget = event.target.closest('.sort');
+      }
       if (!popUpTarget) {
         setVisibility(false);
       }

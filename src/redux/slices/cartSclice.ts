@@ -1,6 +1,21 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-const initialState = {
+export type CartItem = {
+  id: string;
+  title: string;
+  price: number;
+  imageUrl: string;
+  type: string;
+  size: number;
+  count: number;
+};
+
+interface CartSliceState {
+  totalPrice: number;
+  products: CartItem[];
+}
+
+const initialState: CartSliceState = {
   totalPrice: 0,
   products: [],
 };
@@ -9,7 +24,7 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    addProduct: (state, action) => {
+    addProduct: (state, action: PayloadAction<CartItem>) => {
       // eslint-disable-next-line
       let findObject = state.products.find((obj) => {
         if (
@@ -32,7 +47,7 @@ const cartSlice = createSlice({
       }
       state.totalPrice = state.products.reduce((sum, obj) => sum + obj.count * obj.price, 0);
     },
-    minusItem: (state, action) => {
+    minusItem: (state, action: PayloadAction<CartItem>) => {
       // eslint-disable-next-line
       let findObject = state.products.find((obj) => {
         if (
@@ -53,7 +68,7 @@ const cartSlice = createSlice({
       }
       state.totalPrice = state.products.reduce((sum, obj) => sum + obj.count * obj.price, 0);
     },
-    removeProduct: (state, action) => {
+    removeProduct: (state, action: PayloadAction<CartItem>) => {
       // eslint-disable-next-line
       let findObject = state.products.find((obj) => {
         if (

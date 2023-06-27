@@ -3,12 +3,17 @@ import logoSvg from '../assets/img/pizza-logo.svg';
 import Search from './Search';
 
 import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
+
+type ProdType = {
+  count: number;
+};
 
 function Header() {
   const { totalPrice, products } = useSelector(selcetCart);
   const location = useLocation();
 
-  const totalCount = products.reduce((counted: number, obj: any) => counted + obj.count, 0);
+  const totalCount = products.reduce((counted: number, obj: ProdType) => counted + obj.count, 0);
 
   return (
     <div className="header">
@@ -63,6 +68,6 @@ function Header() {
   );
 }
 
-export const selcetCart = (state: any) => state.cart;
+export const selcetCart = (state: RootState) => state.cart;
 
 export default Header;

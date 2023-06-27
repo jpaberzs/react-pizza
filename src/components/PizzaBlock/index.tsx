@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addProduct } from '../../redux/slices/cartSclice';
+import { CartItem, addProduct } from '../../redux/slices/cartSclice';
 import { Link } from 'react-router-dom';
+import { RootState } from '../../redux/store';
 
 type PizzaBlockType = {
   id: string;
@@ -14,13 +15,13 @@ type PizzaBlockType = {
 
 const PizzaBlock: React.FC<PizzaBlockType> = ({ id, title, price, imageUrl, types, sizes }) => {
   const dispatch = useDispatch();
-  const addedItem = useSelector((state: any) =>
-    state.cart.products.find((item: any) => item.id === id),
+  const addedItem = useSelector((state: RootState) =>
+    state.cart.products.find((item) => item.id === id),
   );
-  const countedItems = useSelector((state: any) => {
+  const countedItems = useSelector((state: RootState) => {
     let count = 0;
     // eslint-disable-next-line
-    state.cart.products.map((item: any) => {
+    state.cart.products.map((item) => {
       if (item.id === id) {
         count += item.count;
       }
@@ -34,13 +35,14 @@ const PizzaBlock: React.FC<PizzaBlockType> = ({ id, title, price, imageUrl, type
   const counteditems = addedItem ? countedItems : 0;
 
   const onClickAdd = () => {
-    const item = {
+    const item: CartItem = {
       id,
       title,
       price,
       imageUrl,
       type: typesNames[typeId],
       size: sizes[sizeId],
+      count: 0,
     };
     dispatch(addProduct(item));
   };

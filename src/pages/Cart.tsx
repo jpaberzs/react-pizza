@@ -10,11 +10,11 @@ const Cart: React.FC = () => {
   const { totalPrice, products } = useSelector(selcetCart);
   const dispatch = useDispatch();
 
-  const clearCart = () => {
+  const clearCart = (event: React.MouseEvent<HTMLDivElement>) => {
     if (window.confirm('Ты действительно хочешь удалить товар?')) dispatch(clearProduct());
   };
 
-  const totalCount = products.reduce((counted: number, obj: any) => counted + obj.count, 0);
+  const totalCount = products.reduce((counted: number, obj) => counted + obj.count, 0);
 
   if (!totalPrice) return <CartEmpty />;
 
@@ -94,7 +94,7 @@ const Cart: React.FC = () => {
               <span>Очистить корзину</span>
             </div>
           </div>
-          {products.map((product: any) => (
+          {products.map((product) => (
             <CartItem key={product.id + product.size + product.type} {...product} />
           ))}
         </div>
