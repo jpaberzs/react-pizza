@@ -21,9 +21,9 @@ const Home: React.FC = () => {
   const { items, status } = useSelector((state: RootState) => state.pizza);
   const { searchValue } = useSelector((state: RootState) => state.filterSlice);
 
-  const getCategoryId = (id: number) => {
+  const getCategoryId = React.useCallback((id: number) => {
     dispatch(setCategoryId(id));
-  };
+  }, []);
 
   const setCurrentPage = (id: number) => {
     dispatch(setPage(id));
@@ -66,7 +66,7 @@ const Home: React.FC = () => {
   return (
     <div className="container">
       <div className="content__top">
-        <Categories value={categoryId} onClickCategory={(id: number) => getCategoryId(id)} />
+        <Categories value={categoryId} onClickCategory={getCategoryId} />
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>

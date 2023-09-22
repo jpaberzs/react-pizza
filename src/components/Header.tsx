@@ -4,6 +4,8 @@ import Search from './Search';
 
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
+import React from 'react';
+import { log } from 'console';
 
 type ProdType = {
   count: number;
@@ -12,8 +14,17 @@ type ProdType = {
 function Header() {
   const { totalPrice, products } = useSelector(selcetCart);
   const location = useLocation();
+  const isMounted = React.useRef(false);
 
   const totalCount = products.reduce((counted: number, obj: ProdType) => counted + obj.count, 0);
+
+  React.useEffect(() => {
+    if(isMounted.current) {
+      const json = JSON.stringify(products);
+      localStorage.setItem('cart', json);
+    }
+    isMounted.current = true;
+  }, [products]);
 
   return (
     <div className="header">

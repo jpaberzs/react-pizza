@@ -22,7 +22,7 @@ type handleClickType = {
   target: HTMLDivElement;
 };
 
-function Sort() {
+const Sort: React.FC = React.memo(() => {
   const dispatch = useDispatch();
   const sort = useSelector((state: RootState) => state.filterSlice.sort);
 
@@ -84,6 +84,6 @@ function Sort() {
       )}
     </div>
   );
-}
+});
 
 export default Sort;
